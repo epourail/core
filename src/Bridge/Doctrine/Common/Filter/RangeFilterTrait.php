@@ -28,6 +28,11 @@ trait RangeFilterTrait
     use PropertyHelperTrait;
 
     /**
+     * @var string Keyword used to retrieve the value
+     */
+    protected $rangeParameterName;
+
+    /**
      * {@inheritdoc}
      */
     public function getDescription(string $resourceClass): array
@@ -68,11 +73,27 @@ trait RangeFilterTrait
         $propertyName = $this->normalizePropertyName($fieldName);
 
         return [
-            sprintf('%s[%s]', $propertyName, $operator) => [
+            sprintf('%s[%s][%s]', $this->rangeParameterName, $propertyName, $operator) => [
                 'property' => $propertyName,
                 'type' => 'string',
                 'required' => false,
+                'swagger' => [
+                    'name' => sprintf('%s[%s][%s]', $this->rangeParameterName, $propertyName, $operator),
+                    'type' => 'string',
+                ],
+                'openapi' => [
+                    'name' => sprintf('%s[%s][%s]', $this->rangeParameterName, $propertyName, $operator),
+                    'schema' => [
+                        'type' => 'string',
+                    ],
+                ],
             ],
+            // -- TODO : @ApiPlatform, should I keep the old syntax (introduce a BC break or not) ?
+            //            sprintf('%s[%s]', $propertyName, $operator) => [
+            //                'property' => $propertyName,
+            //                'type' => 'string',
+            //                'required' => false,
+            //            ],
         ];
     }
 
@@ -88,7 +109,12 @@ trait RangeFilterTrait
 
         if (empty($values)) {
             $this->getLogger()->notice('Invalid filter ignored', [
-                'exception' => new InvalidArgumentException(sprintf('At least one valid operator ("%s") is required for "%s" property', implode('", "', $operators), $property)),
+                'exception' => new InvalidArgumentException(
+                    sprintf(
+                        'At least one valid operator ("%s") is required for "%s" property',
+                        implode('", "', $operators), $property
+                    )
+                ),
             ]);
 
             return null;

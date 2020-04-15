@@ -116,6 +116,10 @@
             <tag name="api_platform.graphql.type" />
         </service>
 
+<!--        <service id="api_platform.graphql.rangefilter_type" class="ApiPlatform\Core\GraphQl\Type\Definition\RangeFilterType">-->
+<!--            <tag name="api_platform.graphql.type" />-->
+<!--        </service>-->
+
         <service id="api_platform.graphql.type_locator" class="Symfony\Component\DependencyInjection\ServiceLocator">
             <tag name="container.service_locator" />
         </service>

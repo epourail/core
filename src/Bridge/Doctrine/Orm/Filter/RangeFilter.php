@@ -16,7 +16,11 @@ namespace ApiPlatform\Core\Bridge\Doctrine\Orm\Filter;
 use ApiPlatform\Core\Bridge\Doctrine\Common\Filter\RangeFilterInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Common\Filter\RangeFilterTrait;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
  * Filters the collection by range.
@@ -27,11 +31,62 @@ class RangeFilter extends AbstractContextAwareFilter implements RangeFilterInter
 {
     use RangeFilterTrait;
 
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        ?RequestStack $requestStack = null,
+        LoggerInterface $logger = null,
+        array $properties = null,
+        NameConverterInterface $nameConverter = null,
+        string $rangeParameterName = self::QUERY_PARAMETER_KEY
+    ) {
+        parent::__construct($managerRegistry, $requestStack, $logger, $properties, $nameConverter);
+
+        $this->rangeParameterName = $rangeParameterName;
+    }
+
     /**
      * {@inheritdoc}
      */
-    protected function filterProperty(string $property, $values, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
-    {
+    public function apply(
+        QueryBuilder $queryBuilder,
+        QueryNameGeneratorInterface $queryNameGenerator,
+        string $resourceClass,
+        string $operationName = null,
+        array $context = []
+    ) {
+        if (!\is_array($context['filters'][$this->rangeParameterName] ?? null)) {
+            $context['range_deprecated_syntax'] = true;
+            @trigger_error(sprintf('@ApiPlatform Should I log a deprecated message on the old syntax', __CLASS__), E_USER_DEPRECATED);
+
+            parent::apply($queryBuilder, $queryNameGenerator, $resourceClass, $operationName, $context);
+
+            return;
+        }
+
+        foreach ($context['filters'][$this->rangeParameterName] as $property => $value) {
+            $this->filterProperty(
+                $this->denormalizePropertyName($property),
+                $value,
+                $queryBuilder,
+                $queryNameGenerator,
+                $resourceClass,
+                $operationName,
+                $context
+            );
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function filterProperty(
+        string $property,
+        $values,
+        QueryBuilder $queryBuilder,
+        QueryNameGeneratorInterface $queryNameGenerator,
+        string $resourceClass,
+        string $operationName = null
+    ) {
         if (
             !\is_array($values) ||
             !$this->isPropertyEnabled($property, $resourceClass) ||

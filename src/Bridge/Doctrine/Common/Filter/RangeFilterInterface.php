@@ -21,6 +21,8 @@ namespace ApiPlatform\Core\Bridge\Doctrine\Common\Filter;
  */
 interface RangeFilterInterface
 {
+    public const QUERY_PARAMETER_KEY = 'range';
+
     public const PARAMETER_BETWEEN = 'between';
     public const PARAMETER_GREATER_THAN = 'gt';
     public const PARAMETER_GREATER_THAN_OR_EQUAL = 'gte';

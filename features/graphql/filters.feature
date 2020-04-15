@@ -246,3 +246,97 @@ Feature: Collections filtering
     And the JSON node "data.dummies.edges" should have 2 element
     And the JSON node "data.dummies.edges[0].node.relatedDummy.name" should be equal to "RelatedDummy #1"
     And the JSON node "data.dummies.edges[1].node.relatedDummy.name" should be equal to "RelatedDummy #2"
+
+  @createSchema @epourail @rangev1
+  Scenario: Retrieve a collection filtered using the range filter with the deprecated syntax
+    Given there are 4 dummy objects with dummyFloat
+    When I send the following GraphQL request:
+    """
+    {
+      dummies(dummyFloat: {lte: "2.2"}) {
+        totalCount
+        edges {
+          node {
+            id
+            dummyFloat
+          }
+        }
+      }
+    }
+    """
+    Then the JSON node "data.dummies.totalCount" should be equal to the number 2
+    Then the JSON node "data.dummies.edges" should have 2 element
+    And the JSON node "data.dummies.edges[0].node.dummyFloat" should be equal to the number 1.1
+    And the JSON node "data.dummies.edges[1].node.dummyFloat" should be equal to the number 2.2
+
+  @createSchema @epourail @rangev1
+  Scenario: Retrieve a collection filtered using the range filter with the deprecated syntax
+    Given there are 4 dummy objects with dummyFloat
+    When I send the following GraphQL request:
+    """
+    {
+      dummies(dummyFloat: {lt: "2.2"}) {
+        totalCount
+        edges {
+          node {
+            id
+            dummyFloat
+          }
+        }
+      }
+    }
+    """
+    Then the JSON node "data.dummies.totalCount" should be equal to the number 1
+    Then the JSON node "data.dummies.edges" should have 1 element
+    And the JSON node "data.dummies.edges[0].node.dummyFloat" should be equal to the number 1.1
+
+  @createSchema @epourail @rangev2
+  Scenario: Retrieve a collection filtered using the range filter (graphql)
+    Given there are 20 dummy objects with dummyPrice
+    When I send the following GraphQL request:
+    """
+    {
+      dummies(range: {dummyPrice: {lte: "12.99"}}) {
+        totalCount
+        edges {
+          node {
+            id
+            dummyPrice
+          }
+        }
+      }
+    }
+    """
+    Then the JSON node "data.dummies.totalCount" should be equal to the number 10
+    Then the JSON node "data.dummies.edges" should have 3 element
+    And the JSON node "data.dummies.edges[0].node.dummyPrice" should be equal to the string "9.99"
+    And the JSON node "data.dummies.edges[1].node.dummyPrice" should be equal to the string "12.99"
+
+  @createSchema @epourail @rangev2
+  Scenario: Retrieve a collection filtered using the range filter (graphql)
+    Given there are 20 dummy objects with dummyPrice
+    When I send the following GraphQL request:
+    """
+    {
+      dummies(range: {dummyPrice: {lt: "12.99"}}) {
+        totalCount
+        edges {
+          node {
+            id
+            dummyPrice
+          }
+        }
+      }
+    }
+    """
+    Then the JSON node "data.dummies.totalCount" should be equal to the number 5
+    Then the JSON node "data.dummies.edges" should have 3 element
+    And the JSON node "data.dummies.edges[0].node.dummyPrice" should be equal to the string "9.99"
+
+
+#  @createSchema @epourail @schema @only4test
+#  Scenario: Introspect the graphql schema
+#    Given there are 1 dummy objects with dummyPrice
+#    When I send the query to introspect the schema
+#    Then print last JSON response
+

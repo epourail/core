@@ -761,6 +761,23 @@ final class DoctrineContext implements Context
     }
 
     /**
+     * @Given there are :nb dummy objects with dummyFloat
+     */
+    public function thereAreDummyObjectsWithDummyFloat(int $nb)
+    {
+        for ($i = 1; $i <= $nb; ++$i) {
+            $dummy = $this->buildDummy();
+            $dummy->setName('Dummy #'.$i);
+            $dummy->setAlias('Alias #'.($nb - $i));
+            $dummy->setDummyFloat($i * 1.1);
+
+            $this->manager->persist($dummy);
+        }
+
+        $this->manager->flush();
+    }
+
+    /**
      * @Given there are :nb dummy objects with dummyPrice
      */
     public function thereAreDummyObjectsWithDummyPrice(int $nb)

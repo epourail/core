@@ -32,305 +32,77 @@ class RangeFilterTest extends DoctrineOrmFilterTestCase
         $filter = $this->buildFilter();
 
         $this->assertEquals([
-            'id[between]' => [
+            'range[id]' => [
                 'property' => 'id',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'id[gt]' => [
-                'property' => 'id',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'id[gte]' => [
-                'property' => 'id',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'id[lt]' => [
-                'property' => 'id',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'id[lte]' => [
-                'property' => 'id',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'name[between]' => [
+            'range[name]' => [
                 'property' => 'name',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'name[gt]' => [
-                'property' => 'name',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'name[gte]' => [
-                'property' => 'name',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'name[lt]' => [
-                'property' => 'name',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'name[lte]' => [
-                'property' => 'name',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'alias[between]' => [
+            'range[alias]' => [
                 'property' => 'alias',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'alias[gt]' => [
-                'property' => 'alias',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'alias[gte]' => [
-                'property' => 'alias',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'alias[lt]' => [
-                'property' => 'alias',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'alias[lte]' => [
-                'property' => 'alias',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'description[between]' => [
+            'range[description]' => [
                 'property' => 'description',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'description[gt]' => [
-                'property' => 'description',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'description[gte]' => [
-                'property' => 'description',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'description[lt]' => [
-                'property' => 'description',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'description[lte]' => [
-                'property' => 'description',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummy[between]' => [
+            'range[dummy]' => [
                 'property' => 'dummy',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'dummy[gt]' => [
-                'property' => 'dummy',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummy[gte]' => [
-                'property' => 'dummy',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummy[lt]' => [
-                'property' => 'dummy',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummy[lte]' => [
-                'property' => 'dummy',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyDate[between]' => [
+            'range[dummyDate]' => [
                 'property' => 'dummyDate',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'dummyDate[gt]' => [
-                'property' => 'dummyDate',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyDate[gte]' => [
-                'property' => 'dummyDate',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyDate[lt]' => [
-                'property' => 'dummyDate',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyDate[lte]' => [
-                'property' => 'dummyDate',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyFloat[between]' => [
+            'range[dummyFloat]' => [
                 'property' => 'dummyFloat',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'dummyFloat[gt]' => [
-                'property' => 'dummyFloat',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyFloat[gte]' => [
-                'property' => 'dummyFloat',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyFloat[lt]' => [
-                'property' => 'dummyFloat',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyFloat[lte]' => [
-                'property' => 'dummyFloat',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyPrice[between]' => [
+            'range[dummyPrice]' => [
                 'property' => 'dummyPrice',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'dummyPrice[gt]' => [
-                'property' => 'dummyPrice',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyPrice[gte]' => [
-                'property' => 'dummyPrice',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyPrice[lt]' => [
-                'property' => 'dummyPrice',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyPrice[lte]' => [
-                'property' => 'dummyPrice',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'jsonData[between]' => [
+            'range[jsonData]' => [
                 'property' => 'jsonData',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'jsonData[gt]' => [
-                'property' => 'jsonData',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'jsonData[gte]' => [
-                'property' => 'jsonData',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'jsonData[lt]' => [
-                'property' => 'jsonData',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'jsonData[lte]' => [
-                'property' => 'jsonData',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'arrayData[between]' => [
+            'range[arrayData]' => [
                 'property' => 'arrayData',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'arrayData[gt]' => [
-                'property' => 'arrayData',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'arrayData[gte]' => [
-                'property' => 'arrayData',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'arrayData[lt]' => [
-                'property' => 'arrayData',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'arrayData[lte]' => [
-                'property' => 'arrayData',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'nameConverted[between]' => [
+            'range[nameConverted]' => [
                 'property' => 'nameConverted',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
+                'is_collection' => true,
             ],
-            'nameConverted[gt]' => [
-                'property' => 'nameConverted',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'nameConverted[gte]' => [
-                'property' => 'nameConverted',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'nameConverted[lt]' => [
-                'property' => 'nameConverted',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'nameConverted[lte]' => [
-                'property' => 'nameConverted',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyBoolean[between]' => [
+            'range[dummyBoolean]' => [
                 'property' => 'dummyBoolean',
-                'type' => 'string',
+                'type' => 'array',
                 'required' => false,
-            ],
-            'dummyBoolean[gt]' => [
-                'property' => 'dummyBoolean',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyBoolean[gte]' => [
-                'property' => 'dummyBoolean',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyBoolean[lt]' => [
-                'property' => 'dummyBoolean',
-                'type' => 'string',
-                'required' => false,
-            ],
-            'dummyBoolean[lte]' => [
-                'property' => 'dummyBoolean',
-                'type' => 'string',
-                'required' => false,
+                'is_collection' => true,
             ],
         ], $filter->getDescription($this->resourceClass));
     }
