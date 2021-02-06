@@ -126,6 +126,7 @@ final class Configuration implements ConfigurationInterface
                         ->scalarNode('exists_parameter_name')->defaultValue('exists')->cannotBeEmpty()->info('The name of the query parameter to filter on nullable field values.')->end()
                         ->scalarNode('order')->defaultValue('ASC')->info('The default order of results.')->end() // Default ORDER is required for postgresql and mysql >= 5.7 when using LIMIT/OFFSET request
                         ->scalarNode('order_parameter_name')->defaultValue('order')->cannotBeEmpty()->info('The name of the query parameter to order results.')->end()
+                        ->scalarNode('range_parameter_name')->defaultValue('range')->cannotBeEmpty()->info('The name of the query parameter to filter field values according to a range.')->end()
                         ->arrayNode('pagination')
                             ->canBeDisabled()
                             ->addDefaultsIfNotSet()

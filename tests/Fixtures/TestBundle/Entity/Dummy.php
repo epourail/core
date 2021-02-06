@@ -242,6 +242,18 @@ class Dummy
         return $this->dummyDate;
     }
 
+    public function setDummyFloat($dummyFloat)
+    {
+        $this->dummyFloat = $dummyFloat;
+
+        return $this;
+    }
+
+    public function getDummyFloat()
+    {
+        return $this->dummyFloat;
+    }
+
     public function setDummyPrice($dummyPrice)
     {
         $this->dummyPrice = $dummyPrice;

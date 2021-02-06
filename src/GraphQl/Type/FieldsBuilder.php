@@ -381,6 +381,7 @@ final class FieldsBuilder implements FieldsBuilderInterface
             foreach ($this->filterLocator->get($filterId)->getDescription($resourceClass) as $key => $value) {
                 $nullable = isset($value['required']) ? !$value['required'] : true;
                 $filterType = \in_array($value['type'], Type::$builtinTypes, true) ? new Type($value['type'], $nullable) : new Type('object', $nullable, $value['type']);
+
                 $graphqlFilterType = $this->convertType($filterType, false, $queryName, $mutationName, null, $resourceClass, $rootResource, $property, $depth);
 
                 if ('[]' === substr($key, -2)) {
@@ -416,7 +417,7 @@ final class FieldsBuilder implements FieldsBuilderInterface
             if (\is_array($value)) {
                 $value = $this->mergeFilterArgs($args[$key] ?? [], $value);
                 if (!isset($value['#name'])) {
-                    $name = (false === $pos = strrpos($original, '[')) ? $original : substr($original, 0, (int) $pos);
+                    $name = (false === $pos = strpos($original, '[')) ? $original : substr($original, 0, (int) $pos);
                     $value['#name'] = ($resourceMetadata ? $resourceMetadata->getShortName() : '').'Filter_'.strtr($name, ['[' => '_', ']' => '', '.' => '__']);
                 }
             }
@@ -472,7 +473,6 @@ final class FieldsBuilder implements FieldsBuilderInterface
     private function convertType(Type $type, bool $input, ?string $queryName, ?string $mutationName, ?string $subscriptionName, string $resourceClass, string $rootResource, ?string $property, int $depth)
     {
         $graphqlType = $this->typeConverter->convertType($type, $input, $queryName, $mutationName, $subscriptionName, $resourceClass, $rootResource, $property, $depth);
-
         if (null === $graphqlType) {
             throw new InvalidTypeException(sprintf('The type "%s" is not supported.', $type->getBuiltinType()));
         }

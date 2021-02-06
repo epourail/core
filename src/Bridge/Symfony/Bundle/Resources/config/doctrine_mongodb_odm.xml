@@ -114,6 +114,7 @@
         <service id="api_platform.doctrine_mongodb.odm.range_filter" class="ApiPlatform\Core\Bridge\Doctrine\MongoDbOdm\Filter\RangeFilter" public="false" abstract="true">
             <argument type="service" id="doctrine_mongodb" />
             <argument type="service" id="logger" on-invalid="ignore" />
+            <argument key="$rangeParameterName">%api_platform.collection.range_parameter_name%</argument>
             <argument key="$nameConverter" type="service" id="api_platform.name_converter" on-invalid="ignore"/>
         </service>
         <service id="ApiPlatform\Core\Bridge\Doctrine\MongoDbOdm\Filter\RangeFilter" alias="api_platform.doctrine_mongodb.odm.range_filter" />

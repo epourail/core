@@ -55,7 +55,7 @@ services:
 
     app.my_dummy_resource.numeric_filter:
         parent:    'api_platform.doctrine.orm.numeric_filter'
-        arguments: [ { 'dummyFloat': ~, 'dummyPrice': ~ } ]
+        arguments: [ { 'dummyPrice': ~ } ]
         tags:      [ { name: 'api_platform.filter', id: 'my_dummy.numeric' } ]
 
     app.my_dummy_resource.exists_filter:

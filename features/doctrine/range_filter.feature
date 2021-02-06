@@ -3,7 +3,16 @@ Feature: Range filter on collections
   As a client software developer
   I need to filter collections by range
 
-  @createSchema
+  @createSchema @filterv2 @rest
+  Scenario: Retrieve a collection filtered using the range filter (rest)
+    Given there are 4 dummy objects with dummyPrice
+    When I send a "GET" request to "/dummies?range[dummyPrice][between]=12.99..15.99"
+    Then the response status code should be 200
+    #And print last JSON response
+    #And the JSON node "data.dummies.edges" should have 1 element
+    #And the JSON node "data.dummies.edges[0].node.dummyPrice" should be equal to the string "9.99"
+
+  @createSchema @filterv1
   Scenario: Get collection filtered by range (between)
     Given there are 30 dummy objects with dummyPrice
     When I send a "GET" request to "/dummies?dummyPrice[between]=12.99..15.99"

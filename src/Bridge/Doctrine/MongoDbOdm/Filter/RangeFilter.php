@@ -15,7 +15,10 @@ namespace ApiPlatform\Core\Bridge\Doctrine\MongoDbOdm\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Common\Filter\RangeFilterInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Common\Filter\RangeFilterTrait;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ODM\MongoDB\Aggregation\Builder;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 /**
  * Filters the collection by range.
@@ -28,6 +31,30 @@ use Doctrine\ODM\MongoDB\Aggregation\Builder;
 final class RangeFilter extends AbstractFilter implements RangeFilterInterface
 {
     use RangeFilterTrait;
+
+    public function __construct(ManagerRegistry $managerRegistry, LoggerInterface $logger = null, array $properties = null, NameConverterInterface $nameConverter = null, string $rangeParameterName = self::QUERY_PARAMETER_KEY)
+    {
+        parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
+
+        $this->rangeParameterName = $rangeParameterName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function apply(Builder $aggregationBuilder, string $resourceClass, string $operationName = null, array &$context = [])
+    {
+        if (!\is_array($context['filters'][$this->rangeParameterName] ?? null)) {
+            $context['range_deprecated_syntax'] = true;
+            parent::apply($aggregationBuilder, $resourceClass, $operationName, $context);
+
+            return;
+        }
+
+        foreach ($context['filters'][$this->rangeParameterName] as $property => $value) {
+            $this->filterProperty($this->denormalizePropertyName($property), $value, $aggregationBuilder, $resourceClass, $operationName, $context);
+        }
+    }
 
     /**
      * {@inheritdoc}
